@@ -1,3 +1,9 @@
+// https://momentjs.com
+// check current hour and set the background of event blocks
+var now = $('#currentDay');
+var date = moment().format('dddd, MMMM Do YYYY');
+now.text(date);
+
 // Use jQuary Selector
 // create an array of business hours
 // based on the style.css, for each business hour, 
@@ -5,12 +11,14 @@
 var containEl = $('.container');
 var hours = ['9AM','10AM','11AM','12PM','1PM','2PM','3PM','4PM','5PM'];
 var btnID = ['A','B','C','D','E','F','G','H','I'];
+
 for (var i = 0; i < hours.length; i++) {
     var divEl1 = $('<div>');
     var divEl2 = $('<div>');
     var eventEl = $('<textarea>');
     var btnEl = $('<button>');
     var findstringId = [];
+    var currentHour = moment().format('hA');
     findstringId = "#" + i;
 
     divEl1.attr('class', 'time-block row');
@@ -21,20 +29,22 @@ for (var i = 0; i < hours.length; i++) {
     btnEl.attr('id', btnID[i]);
     eventEl.text(localStorage.getItem(findstringId))
     divEl2.text(hours[i]);
-
+    
+    if(hours[i] == currentHour){
+        eventEl.addClass('present')
+    } else if (i < hours.indexOf(currentHour)) {
+        eventEl.addClass('past')
+    } else if (currentHour == '6PM' || currentHour == '7PM' || currentHour == '8PM' || currentHour == '9PM' || currentHour == '10PM' || currentHour == '11PM') {
+        eventEl.addClass('past')
+    } else {
+        eventEl.addClass('future')
+    }
+    
     containEl.append(divEl1);
     divEl1.append(divEl2);
     divEl1.append(eventEl);
     divEl1.append(btnEl);
 }
-
-// https://momentjs.com
-// check current hour and set the background of event blocks
-var now = $('#currentDay');
-var date = moment().format('dddd, MMMM Do YYYY');
-now.text(date);
-var currentHour = moment().format('hA');
-
 
 // check the momentjs
 // console.log(moment().format('h'))
@@ -44,7 +54,7 @@ var currentHour = moment().format('hA');
 // save text into localstorage
 // when click the function, first find the id of the clicked button
 // then determine the position of clicked button in the btnID list, and find its corresponding textarea input
-// convert the id number into #id, then we can use in the jQuary selector
+// convert the id number into #id, then we can use it in the jQuary selector
 // Based on the stringID, save each text into its corresponding localstorage
 var btnSave = $('.saveBtn');
 function recordEvent(event) {
@@ -59,5 +69,3 @@ function recordEvent(event) {
 }
 
 btnSave.on('click', recordEvent);
-
-
