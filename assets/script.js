@@ -17,6 +17,7 @@ for (var i = 0; i < hours.length; i++) {
     var divEl2 = $('<div>');
     var eventEl = $('<textarea>');
     var btnEl = $('<button>');
+    var icon = $('<i>')
     var findstringId = [];
     var currentHour = moment().format('hA');
     findstringId = "#" + i;
@@ -25,6 +26,7 @@ for (var i = 0; i < hours.length; i++) {
     divEl2.attr('class', 'hour col-md-1');
     eventEl.attr('class', 'description col-md-10');
     btnEl.attr('class', 'saveBtn col-md-1');
+    icon.attr('class', 'far fa-save')
     eventEl.attr('id', i);
     btnEl.attr('id', btnID[i]);
     eventEl.text(localStorage.getItem(findstringId))
@@ -44,6 +46,7 @@ for (var i = 0; i < hours.length; i++) {
     divEl1.append(divEl2);
     divEl1.append(eventEl);
     divEl1.append(btnEl);
+    btnEl.append(icon);
 }
 
 // check the momentjs
